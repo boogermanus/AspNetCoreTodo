@@ -4,23 +4,29 @@ using System.Linq;
 using System.Threading.Tasks;
 using AspNetCoreTodo.Models;
 using AspNetCoreTodo.Services;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AspNetCoreTodo.Controllers
 {
+    [Authorize]
     public class TodoController : Controller
     {
         private readonly ITodoItemService _todoItemService;
-
-        public TodoController(ITodoItemService todoItemService)
+        private readonly UserManager<IdentityUser> _userManager;
+        
+        public TodoController(ITodoItemService todoItemService, UserManager<IdentityUser> userManager)
         {
             _todoItemService = todoItemService;
+            _userManager = userManager;
         }
         
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            var items = await _todoItemService.GetIncompleteItemsAsync();
+            var user = await _userManager.GetUserAsync(User);
+            var items = await _todoItemService.GetIncompleteItemsAsync(user);
             
             return View(new TodoViewModel{Items = items});
         }
@@ -32,7 +38,8 @@ namespace AspNetCoreTodo.Controllers
             if (!ModelState.IsValid)
                 return RedirectToAction("Index");
 
-            var successful = await _todoItemService.AddItemAsync(newItem);
+            var user = await _userManager.GetUserAsync(User);
+            var successful = await _todoItemService.AddItemAsync(newItem, user);
 
             if (!successful)
                 return BadRequest("Could not add item.");

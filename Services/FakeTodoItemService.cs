@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AspNetCoreTodo.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace AspNetCoreTodo.Services
 {
     public class FakeTodoItemService : ITodoItemService
     {
-        public Task<List<TodoItem>> GetIncompleteItemsAsync()
+        public Task<List<TodoItem>> GetIncompleteItemsAsync(IdentityUser user)
         {
             var list = new List<TodoItem>
             {
@@ -27,7 +28,7 @@ namespace AspNetCoreTodo.Services
             return Task.FromResult(list);
         }
 
-        public Task<bool> AddItemAsync(TodoItem newItem)
+        public Task<bool> AddItemAsync(TodoItem newItem, IdentityUser user)
         {
             throw new NotImplementedException();
         }

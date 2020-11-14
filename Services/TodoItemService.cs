@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AspNetCoreTodo.Data;
 using AspNetCoreTodo.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace AspNetCoreTodo.Services
@@ -17,16 +18,17 @@ namespace AspNetCoreTodo.Services
             _context = context;
         }
         
-        public async Task<List<TodoItem>> GetIncompleteItemsAsync()
+        public async Task<List<TodoItem>> GetIncompleteItemsAsync(IdentityUser user)
         {
-            return await _context.Items.Where(i => !i.IsDone).ToListAsync();
+            return await _context.Items.Where(i => !i.IsDone && i.UserId == user.Id).ToListAsync();
         }
 
-        public async Task<bool> AddItemAsync(TodoItem newItem)
+        public async Task<bool> AddItemAsync(TodoItem newItem, IdentityUser user)
         {
             newItem.Id = Guid.NewGuid();
             newItem.IsDone = false;
             newItem.DueAt = DateTimeOffset.Now.AddDays(3);
+            newItem.UserId = user.Id;
 
             await _context.Items.AddAsync(newItem);
 
