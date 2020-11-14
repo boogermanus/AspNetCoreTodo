@@ -4,6 +4,6 @@ namespace AspNetCoreTodo.Models
 {
     public class TodoViewModel
     {
-        public IEnumerable<TodoItem> Items { get; set; }
+        public IEnumerable<TodoItemModel> Items { get; set; }
     }
 }

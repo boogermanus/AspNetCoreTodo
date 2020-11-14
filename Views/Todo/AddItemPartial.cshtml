@@ -1,7 +1,9 @@
-﻿@model TodoItem
+﻿@model AddTodoItemModel
 
 <form asp-action="AddItem" method="post">
     <label asp-for="Title">Add a new item:</label>
     <input asp-for="Title" type="text">
+    <label asp-for="DaysUntil">Due in (days):</label>
+    <input asp-for="DaysUntil" type="number" min="0"/>
     <button type="submit">Add</button>
 </form>

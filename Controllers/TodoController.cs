@@ -33,13 +33,13 @@ namespace AspNetCoreTodo.Controllers
 
         [ValidateAntiForgeryToken]
         [HttpPost]
-        public async Task<IActionResult> AddItem(TodoItem newItem)
+        public async Task<IActionResult> AddItem(AddTodoItemModel newItemModel)
         {
             if (!ModelState.IsValid)
                 return RedirectToAction("Index");
 
             var user = await _userManager.GetUserAsync(User);
-            var successful = await _todoItemService.AddItemAsync(newItem, user);
+            var successful = await _todoItemService.AddItemAsync(newItemModel, user);
 
             if (!successful)
                 return BadRequest("Could not add item.");

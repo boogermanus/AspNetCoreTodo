@@ -8,16 +8,16 @@ namespace AspNetCoreTodo.Services
 {
     public class FakeTodoItemService : ITodoItemService
     {
-        public Task<List<TodoItem>> GetIncompleteItemsAsync(IdentityUser user)
+        public Task<List<TodoItemModel>> GetIncompleteItemsAsync(IdentityUser user)
         {
-            var list = new List<TodoItem>
+            var list = new List<TodoItemModel>
             {
-                new TodoItem
+                new TodoItemModel
                 {
                     Title = "Learn ASP.NET Core",
                     DueAt = DateTimeOffset.Now.AddDays(1)
                 },
-                new TodoItem
+                new TodoItemModel
                 {
                     Title = "Build awesome apps",
                     DueAt = DateTimeOffset.Now.AddDays(2)
@@ -28,7 +28,7 @@ namespace AspNetCoreTodo.Services
             return Task.FromResult(list);
         }
 
-        public Task<bool> AddItemAsync(TodoItem newItem, IdentityUser user)
+        public Task<bool> AddItemAsync(AddTodoItemModel newItemModel, IdentityUser user)
         {
             throw new NotImplementedException();
         }

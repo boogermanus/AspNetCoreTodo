@@ -9,7 +9,7 @@ namespace AspNetCoreTodo.Data
 {
     public class ApplicationDbContext : IdentityDbContext
     {
-        public DbSet<TodoItem> Items { get; set; }
+        public DbSet<TodoItemModel> Items { get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {

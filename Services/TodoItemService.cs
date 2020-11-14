@@ -18,17 +18,21 @@ namespace AspNetCoreTodo.Services
             _context = context;
         }
         
-        public async Task<List<TodoItem>> GetIncompleteItemsAsync(IdentityUser user)
+        public async Task<List<TodoItemModel>> GetIncompleteItemsAsync(IdentityUser user)
         {
             return await _context.Items.Where(i => !i.IsDone && i.UserId == user.Id).ToListAsync();
         }
 
-        public async Task<bool> AddItemAsync(TodoItem newItem, IdentityUser user)
+        public async Task<bool> AddItemAsync(AddTodoItemModel newItemModel, IdentityUser user)
         {
-            newItem.Id = Guid.NewGuid();
-            newItem.IsDone = false;
-            newItem.DueAt = DateTimeOffset.Now.AddDays(3);
-            newItem.UserId = user.Id;
+            var newItem = new TodoItemModel
+            {
+                Id = Guid.NewGuid(),
+                IsDone = false,
+                Title = newItemModel.Title,
+                DueAt = DateTimeOffset.Now.AddDays(newItemModel.DaysUntil),
+                UserId = user.Id
+            };
 
             await _context.Items.AddAsync(newItem);
 

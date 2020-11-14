@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace AspNetCoreTodo.Models
 {
-    public class TodoItem
+    public class TodoItemModel
     {
         public Guid Id { get; set; }
         public bool IsDone { get; set; }
